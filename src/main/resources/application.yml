@@ -10,3 +10,8 @@ spring:
     hibernate:
       ddl-auto: update
     open-in-view: false
+
+
+jwt:
+  secretKey: daonsecretdaonsecretdaonsecretdaonsecretdaonsecretdaonsecretdaonsecretdaonsecret
+  validation: 86400

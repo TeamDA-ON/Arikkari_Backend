@@ -2,20 +2,21 @@ package com.daon.arikkari.global.auth;
 
 import com.daon.arikkari.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CustomOAuth2UserService implements OAuth2UserService {
+public class CustomOAuth2UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username)
+                .map(AuthDetails::new)
+                .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다."));
     }
 }

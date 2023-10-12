@@ -1,6 +1,7 @@
 package com.daon.arikkari.global.config;
 
-import com.daon.arikkari.global.auth.CustomOAuth2UserService;
+import com.daon.arikkari.global.jwt.JwtFilter;
+import com.daon.arikkari.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +23,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
-    private final CustomOAuth2UserService customOAuth2UserService;
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -36,12 +35,6 @@ public class SecurityConfig {
                         authorizationManagerRequestMatcherRegistry
                                 .requestMatchers("/oauth/**").permitAll()
                                 .anyRequest().authenticated())
-                .oauth2Login(httpSecurityOAuth2LoginConfigurer ->
-                        httpSecurityOAuth2LoginConfigurer
-                                .userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig.userService(customOAuth2UserService)))
-                                .authorizationEndpoint(authorizationEndpointConfig -> authorizationEndpointConfig
-                                        .baseUri("/oauth2/**"))
-                                .redirectionEndpoint(redirectionEndpointConfig -> redirectionEndpointConfig.baseUri("/oauth2/redirect")))
                 .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
