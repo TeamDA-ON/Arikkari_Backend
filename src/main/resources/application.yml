@@ -1,6 +1,28 @@
 spring:
-  profiles:
-    include: oauth, database
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://svc.sel5.cloudtype.app:30515/arikkari
+    username: daonuser
+    password: daonpassword
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 415045963497-6a4h12l94ovshlq70jmfjlh3susd8g91.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: https://port-0-arikkari-backend-euegqv2blnrdvf3e.sel5.cloudtype.app/login/oauth2/code/google
+            scope:
+              - email
+              - profile
+jwt:
+  secretKey: daonsecretdaonsecretdaonsecretdaonsecretdaonsecretdaonsecretdaonsecretdaonsecret
 server:
   servlet:
     context-path: /api
