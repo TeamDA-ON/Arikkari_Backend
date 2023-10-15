@@ -1,7 +1,7 @@
 package com.daon.arikkari.domain.multiplechoicequestion.presentation;
 
-import com.daon.mvp.domain.multiplechoicequestion.presentation.dto.response.MCQResponse;
-import com.daon.mvp.domain.multiplechoicequestion.service.MCQService;
+import com.daon.arikkari.domain.multiplechoicequestion.presentation.dto.response.MCQResponse;
+import com.daon.arikkari.domain.multiplechoicequestion.service.MCQService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,11 +17,11 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MCQController {
 
-    private final MCQService service;
+    private final MCQService mcqService;
 
     @GetMapping("/get")
     public ResponseEntity<List<MCQResponse>> getQuestion() {
-        return ResponseEntity.ok(service.execute());
+        return ResponseEntity.ok(mcqService.execute());
     }
 
 }

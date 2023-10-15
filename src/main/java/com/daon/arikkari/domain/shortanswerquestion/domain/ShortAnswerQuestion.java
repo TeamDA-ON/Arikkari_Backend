@@ -1,6 +1,6 @@
 package com.daon.arikkari.domain.shortanswerquestion.domain;
 
-import com.daon.mvp.domain.shortanswerquestion.presentation.dto.response.SAQResponse;
+import com.daon.arikkari.domain.shortanswerquestion.presentation.dto.response.SAQResponse;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

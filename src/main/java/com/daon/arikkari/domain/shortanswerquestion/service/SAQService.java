@@ -1,7 +1,7 @@
 package com.daon.arikkari.domain.shortanswerquestion.service;
 
-import com.daon.mvp.domain.shortanswerquestion.presentation.dto.response.SAQResponse;
-import com.daon.mvp.domain.shortanswerquestion.repository.ShortAnswerQuestionRepository;
+import com.daon.arikkari.domain.shortanswerquestion.presentation.dto.response.SAQResponse;
+import com.daon.arikkari.domain.shortanswerquestion.repository.ShortAnswerQuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.daon.arikkari.domain.multiplechoicequestion.service;
 
-import com.daon.mvp.domain.multiplechoicequestion.presentation.dto.response.MCQResponse;
-import com.daon.mvp.domain.multiplechoicequestion.repository.MultipleChoiceQuestionRepository;
+import com.daon.arikkari.domain.multiplechoicequestion.presentation.dto.response.MCQResponse;
+import com.daon.arikkari.domain.multiplechoicequestion.repository.MultipleChoiceQuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

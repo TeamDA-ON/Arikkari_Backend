@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    include: oauth, database
+server:
+  servlet:
+    context-path: /api
