@@ -1,7 +1,7 @@
 package com.daon.arikkari.global.jwt;
 
-import com.daon.arikkari.global.auth.AuthDetails;
-import com.daon.arikkari.global.auth.CustomOAuth2UserService;
+import com.daon.arikkari.domain.user.domain.User;
+import com.daon.arikkari.domain.user.repository.UserRepository;
 import com.daon.arikkari.global.jwt.dto.JwtFilterResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -12,9 +12,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.util.Collections;
 import java.util.Date;
 
 @Component
@@ -23,9 +26,9 @@ public class JwtProvider implements InitializingBean {
 
     @Value("${jwt.secretKey}")
     private String secretKey;
-
-    private final CustomOAuth2UserService customOAuth2UserService;
     private Key key;
+
+    private final UserRepository userRepository;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -42,13 +45,11 @@ public class JwtProvider implements InitializingBean {
     }
 
     private String createToken(String email, Long validation) {
-        Claims claims = Jwts.claims();
-        claims.put("email", email);
 
         Date now = new Date();
 
         return Jwts.builder()
-                .setClaims(claims)
+                .setSubject(email)
                 .setIssuedAt(now)
                 .signWith(key, SignatureAlgorithm.ES256)
                 .setExpiration(new Date(now.getTime() + validation))
@@ -84,8 +85,8 @@ public class JwtProvider implements InitializingBean {
     }
 
     public Authentication getAuthentication(String token) {
-        AuthDetails authDetails = (AuthDetails) customOAuth2UserService.loadUserByUsername(extractEmail(token));
-        return new UsernamePasswordAuthenticationToken(authDetails, "", authDetails.getAuthorities());
+        UserDetails userDetails = (UserDetails) userRepository.findByEmail(extractEmail(token)).orElseThrow(() -> new UsernameNotFoundException("exception"));
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     private String extractEmail(String token) {

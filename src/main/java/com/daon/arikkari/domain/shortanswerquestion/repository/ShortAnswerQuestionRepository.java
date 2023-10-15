@@ -1,6 +1,6 @@
 package com.daon.arikkari.domain.shortanswerquestion.repository;
 
-import com.daon.mvp.domain.shortanswerquestion.domain.ShortAnswerQuestion;
+import com.daon.arikkari.domain.shortanswerquestion.domain.ShortAnswerQuestion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

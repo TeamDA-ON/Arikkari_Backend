@@ -1,7 +1,7 @@
 package com.daon.arikkari.domain.shortanswerquestion.presentation;
 
-import com.daon.mvp.domain.shortanswerquestion.presentation.dto.response.SAQResponse;
-import com.daon.mvp.domain.shortanswerquestion.service.SAQService;
+import com.daon.arikkari.domain.shortanswerquestion.presentation.dto.response.SAQResponse;
+import com.daon.arikkari.domain.shortanswerquestion.service.SAQService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,10 +17,10 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SAQController {
 
-    private final SAQService service;
+    private final SAQService saqService;
 
     @GetMapping("/get")
     public ResponseEntity<List<SAQResponse>> getQuestion() {
-        return ResponseEntity.ok(service.execute());
+        return ResponseEntity.ok(saqService.execute());
     }
 }

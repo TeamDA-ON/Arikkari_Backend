@@ -1,6 +1,6 @@
 package com.daon.arikkari.domain.multiplechoicequestion.domain;
 
-import com.daon.mvp.domain.multiplechoicequestion.presentation.dto.response.MCQResponse;
+import com.daon.arikkari.domain.multiplechoicequestion.presentation.dto.response.MCQResponse;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
