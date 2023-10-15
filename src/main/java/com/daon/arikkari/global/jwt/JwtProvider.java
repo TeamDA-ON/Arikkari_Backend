@@ -51,7 +51,7 @@ public class JwtProvider implements InitializingBean {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(now)
-                .signWith(key, SignatureAlgorithm.ES256)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .setExpiration(new Date(now.getTime() + validation))
                 .compact();
     }
@@ -84,17 +84,12 @@ public class JwtProvider implements InitializingBean {
                 .build();
     }
 
-    public Authentication getAuthentication(String token) {
-        UserDetails userDetails = (UserDetails) userRepository.findByEmail(extractEmail(token)).orElseThrow(() -> new UsernameNotFoundException("exception"));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-    }
-
-    private String extractEmail(String token) {
-        Claims claims = Jwts.parserBuilder()
+    public String extractEmail(String accessToken) {
+        return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.get("email", String.class);
+                .parseClaimsJws(accessToken)
+                .getBody()
+                .getSubject();
     }
 }

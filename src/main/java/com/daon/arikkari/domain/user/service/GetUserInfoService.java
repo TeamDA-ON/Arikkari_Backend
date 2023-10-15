@@ -12,5 +12,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 )
 public interface GetUserInfoService {
     @GetMapping
-    ResponseEntity<UserInfoResponse> getUserInfo(@RequestParam String access_token);
+    UserInfoResponse getUserInfo(@RequestParam String access_token);
 }

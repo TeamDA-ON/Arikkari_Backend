@@ -17,9 +17,6 @@ public class User {
     private String email;
 
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
     private String name;
 
     @Column
@@ -31,17 +28,12 @@ public class User {
     @Column(nullable = false)
     private Long wrongCount;
 
-    @Column(nullable = false)
-    private Authority authority;
-
     @Builder
-    public User(String email, String password, String name, String belong, Long correctCount, Long wrongCount, Authority authority) {
+    public User(String email, String name, String belong, Long correctCount, Long wrongCount) {
         this.email = email;
-        this.password = password;
         this.name = name;
         this.belong = belong;
         this.correctCount = correctCount;
         this.wrongCount = wrongCount;
-        this.authority = authority;
     }
 }

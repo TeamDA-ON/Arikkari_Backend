@@ -1,10 +1,15 @@
 package com.daon.arikkari.domain.user.service;
 
+import com.daon.arikkari.domain.user.domain.User;
+import com.daon.arikkari.domain.user.presentation.dto.response.LoginResponse;
+import com.daon.arikkari.domain.user.repository.UserRepository;
 import com.daon.arikkari.global.auth.dto.request.GoogleTokenRequest;
 import com.daon.arikkari.global.auth.dto.response.GoogleTokenResponse;
 import com.daon.arikkari.global.auth.dto.response.UserInfoResponse;
+import com.daon.arikkari.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +28,11 @@ public class AuthService {
 
     private final GetTokenService getTokenService;
     private final GetUserInfoService getUserInfoService;
+    private final UserRepository userRepository;
+    private final JwtProvider jwtProvider;
 
-    public ResponseEntity<?> execute(String code) {
-        ResponseEntity<GoogleTokenResponse> googleTokenResponse = getTokenService.getAccessToken(
+    public ResponseEntity<LoginResponse> execute(String code) {
+        GoogleTokenResponse googleTokenResponse = getTokenService.getAccessToken(
                 GoogleTokenRequest
                         .builder()
                         .code(code)
@@ -35,19 +42,23 @@ public class AuthService {
                         .grant_type("authorization_code")
                         .build()
         );
-        System.out.println(googleTokenResponse.getBody().getAccess_token());
-        ResponseEntity<UserInfoResponse> userInfoResponse = getUserInfoService.getUserInfo(googleTokenResponse.getBody().getAccess_token());
-        UserInfoResponse userInfo = userInfoResponse.getBody();
+        UserInfoResponse userInfoResponse = getUserInfoService.getUserInfo(googleTokenResponse.getAccess_token());
+        if (userRepository.findByEmail(userInfoResponse.getEmail()).isEmpty()) {
+            userRepository.save(
+                    User.builder()
+                            .email(userInfoResponse.getEmail())
+                            .name(userInfoResponse.getName())
+                            .correctCount(0L)
+                            .wrongCount(0L)
+                            .build()
+            );
+        }
 
-        System.out.println("ID: " + userInfo.getId());
-        System.out.println("Email: " + userInfo.getEmail());
-        System.out.println("Verified Email: " + userInfo.getVerified_email());
-        System.out.println("Name: " + userInfo.getName());
-        System.out.println("Given Name: " + userInfo.getGiven_name());
-        System.out.println("Family Name: " + userInfo.getFamily_name());
-        System.out.println("Picture: " + userInfo.getPicture());
-        System.out.println("Locale: " + userInfo.getLocale());
-
-        return ResponseEntity.ok("success");
+        String accessToken = jwtProvider.createAccessToken(userInfoResponse.getEmail());
+        String refreshToken = jwtProvider.createRefreshToken(userInfoResponse.getEmail());
+        return ResponseEntity.status(HttpStatus.OK).body(LoginResponse.builder()
+                .access_token(accessToken)
+                .refresh_token(refreshToken)
+                .build());
     }
 }
