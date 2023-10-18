@@ -22,6 +22,6 @@ public class UpdateUserService {
         user.setName(request.getName());
         user.setBelong(request.getBelong());
         userRepository.save(user);
-        ResponseEntity.ok("succcess");
+        return ResponseEntity.ok("succcess");
     }
 }
