@@ -36,4 +36,12 @@ public class User {
         this.correctCount = correctCount;
         this.wrongCount = wrongCount;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBelong(String belong) {
+        this.belong = belong;
+    }
 }

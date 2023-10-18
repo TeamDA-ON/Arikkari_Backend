@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/mcq")
+@RequestMapping("/mcq")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MCQController {
 

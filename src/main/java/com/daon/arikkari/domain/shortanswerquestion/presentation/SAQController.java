@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/saq")
+@RequestMapping("/saq")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SAQController {
 
