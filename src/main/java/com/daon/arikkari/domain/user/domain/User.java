@@ -44,4 +44,8 @@ public class User {
     public void setBelong(String belong) {
         this.belong = belong;
     }
+
+    public void addCount(Long correctCount) {
+        this.correctCount += correctCount;
+    }
 }

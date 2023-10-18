@@ -1,13 +1,11 @@
 package com.daon.arikkari.domain.user.presentation;
 
+import com.daon.arikkari.domain.user.presentation.dto.request.UpdateCorrectedRequest;
 import com.daon.arikkari.domain.user.presentation.dto.request.UpdateUserRequest;
 import com.daon.arikkari.domain.user.presentation.dto.request.UserRequest;
 import com.daon.arikkari.domain.user.presentation.dto.response.LoginResponse;
 import com.daon.arikkari.domain.user.presentation.dto.response.RankResponse;
-import com.daon.arikkari.domain.user.service.AuthService;
-import com.daon.arikkari.domain.user.service.GetRankService;
-import com.daon.arikkari.domain.user.service.GetUserService;
-import com.daon.arikkari.domain.user.service.UpdateUserService;
+import com.daon.arikkari.domain.user.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +22,7 @@ public class AuthController {
     private final GetUserService getUserService;
     private final UpdateUserService updateUserService;
     private final GetRankService getRankService;
+    private final UpdateCorrectedService updateCorrectedService;
 
     @PostMapping("/signup")
     public ResponseEntity<LoginResponse> signUp(@RequestParam(name = "code") String code) {
@@ -45,4 +44,8 @@ public class AuthController {
         return getRankService.execute();
     }
 
+    @PutMapping("/corrected")
+    public ResponseEntity<String> updateCorrected(@RequestBody UpdateCorrectedRequest request, HttpServletRequest httpServletRequest) {
+        return updateCorrectedService.execute(request, httpServletRequest);
+    }
 }
