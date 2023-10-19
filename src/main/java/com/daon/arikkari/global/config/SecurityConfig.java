@@ -1,5 +1,6 @@
 package com.daon.arikkari.global.config;
 
+import com.daon.arikkari.global.jwt.JwtFilter;
 import com.daon.arikkari.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -32,8 +33,9 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)))
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
-                                .requestMatchers("/oauth/**").permitAll()
-                                .anyRequest().permitAll())
+                                .requestMatchers("/auth/**").permitAll()
+                                .anyRequest().authenticated())
+                .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

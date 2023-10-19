@@ -1,11 +1,11 @@
-package com.daon.arikkari.domain.user.presentation.dto.response;
+package com.daon.arikkari.domain.auth.presentation.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class LoginResponse {
+public class AuthResponse {
     private String access_token;
     private String refresh_token;
 }

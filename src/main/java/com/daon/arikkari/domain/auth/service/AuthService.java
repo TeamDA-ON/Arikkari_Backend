@@ -1,8 +1,13 @@
-package com.daon.arikkari.domain.user.service;
+package com.daon.arikkari.domain.auth.service;
 
+import com.daon.arikkari.domain.auth.domain.RefreshToken;
+import com.daon.arikkari.domain.auth.repository.RefreshTokenRepository;
+import com.daon.arikkari.domain.user.domain.Authority;
 import com.daon.arikkari.domain.user.domain.User;
-import com.daon.arikkari.domain.user.presentation.dto.response.LoginResponse;
+import com.daon.arikkari.domain.auth.presentation.dto.request.AuthResponse;
 import com.daon.arikkari.domain.user.repository.UserRepository;
+import com.daon.arikkari.domain.user.service.GetTokenService;
+import com.daon.arikkari.domain.user.service.GetUserInfoService;
 import com.daon.arikkari.global.auth.dto.request.GoogleTokenRequest;
 import com.daon.arikkari.global.auth.dto.response.GoogleTokenResponse;
 import com.daon.arikkari.global.auth.dto.response.UserInfoResponse;
@@ -30,8 +35,9 @@ public class AuthService {
     private final GetUserInfoService getUserInfoService;
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    public ResponseEntity<LoginResponse> execute(String code) {
+    public ResponseEntity<AuthResponse> execute(String code) {
         GoogleTokenResponse googleTokenResponse = getTokenService.getAccessToken(
                 GoogleTokenRequest
                         .builder()
@@ -50,13 +56,21 @@ public class AuthService {
                             .name(userInfoResponse.getName())
                             .correctCount(0L)
                             .wrongCount(0L)
+                            .authority(Authority.ROLE_USER)
                             .build()
             );
         }
 
         String accessToken = jwtProvider.createAccessToken(userInfoResponse.getEmail());
         String refreshToken = jwtProvider.createRefreshToken(userInfoResponse.getEmail());
-        return ResponseEntity.status(HttpStatus.OK).body(LoginResponse.builder()
+        refreshTokenRepository.save(
+                RefreshToken.builder()
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
+                        .email(userInfoResponse.getEmail())
+                        .build()
+        );
+        return ResponseEntity.status(HttpStatus.OK).body(AuthResponse.builder()
                 .access_token(accessToken)
                 .refresh_token(refreshToken)
                 .build());

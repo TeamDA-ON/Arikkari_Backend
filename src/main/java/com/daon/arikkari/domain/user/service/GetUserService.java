@@ -5,6 +5,7 @@ import com.daon.arikkari.domain.user.presentation.dto.request.UserRequest;
 import com.daon.arikkari.domain.user.presentation.dto.response.UserResponse;
 import com.daon.arikkari.domain.user.repository.UserRepository;
 import com.daon.arikkari.global.jwt.JwtProvider;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,8 @@ public class GetUserService {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
 
-    public ResponseEntity<?> execute(UserRequest request) {
-        String email = jwtProvider.extractEmail(request.getAccess_token());
+    public ResponseEntity<?> execute(HttpServletRequest request) {
+        String email = jwtProvider.extractEmail(request);
         Optional<User> optionalUser = userRepository.findByEmail(email);
 
         if (optionalUser.isEmpty()) {

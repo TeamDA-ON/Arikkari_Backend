@@ -28,13 +28,17 @@ public class User {
     @Column(nullable = false)
     private Long wrongCount;
 
+    @Column(nullable = false)
+    private Authority authority;
+
     @Builder
-    public User(String email, String name, String belong, Long correctCount, Long wrongCount) {
+    public User(String email, String name, String belong, Long correctCount, Long wrongCount, Authority authority) {
         this.email = email;
         this.name = name;
         this.belong = belong;
         this.correctCount = correctCount;
         this.wrongCount = wrongCount;
+        this.authority = authority;
     }
 
     public void setName(String name) {

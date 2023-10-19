@@ -7,18 +7,22 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -29,6 +33,7 @@ public class JwtProvider implements InitializingBean {
     private Key key;
 
     private final UserRepository userRepository;
+    private String AUTHORIZATION_KEY = "arikkarikey";
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -47,10 +52,12 @@ public class JwtProvider implements InitializingBean {
     private String createToken(String email, Long validation) {
 
         Date now = new Date();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("No user"));
 
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(now)
+                .claim(AUTHORIZATION_KEY, user.getAuthority())
                 .signWith(key, SignatureAlgorithm.HS256)
                 .setExpiration(new Date(now.getTime() + validation))
                 .compact();
@@ -84,11 +91,45 @@ public class JwtProvider implements InitializingBean {
                 .build();
     }
 
-    public String extractEmail(String accessToken) {
+    public String extractEmail(HttpServletRequest request) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(accessToken)
+                .parseClaimsJws(request.getHeader("Authorization").split(" ")[1].trim())
+                .getBody()
+                .getSubject();
+    }
+
+    public boolean validateToken(String jwt) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(jwt);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public Authentication getAuthenticaion(String jwt) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(jwt)
+                .getBody();
+        Collection<? extends GrantedAuthority> authorities =
+                Arrays.stream(claims.get(AUTHORIZATION_KEY).toString().split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        .toList();
+        return new UsernamePasswordAuthenticationToken(jwt, "", authorities);
+    }
+
+    public String extractEmailwithRefreshToken(String refreshToken) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(refreshToken)
                 .getBody()
                 .getSubject();
     }
