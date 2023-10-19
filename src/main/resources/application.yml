@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://svc.sel5.cloudtype.app:30515/arikkari
+    url: jdbc:mariadb://svc.sel5.cloudtype.app:30515/mvp_daon
     username: daonuser
     password: daonpassword
 
@@ -17,8 +17,8 @@ spring:
           google:
             client-id: 415045963497-6a4h12l94ovshlq70jmfjlh3susd8g91.apps.googleusercontent.com
             client-secret: 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
-            # redirect-uri: https://port-0-arikkari-backend-euegqv2blnrdvf3e.sel5.cloudtype.app/login/oauth2/code/google
-            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            redirect-uri: https://port-0-arikkari-backend-euegqv2blnrdvf3e.sel5.cloudtype.app/login/oauth2/code/google
+            # redirect-uri: http://localhost:8080/login/oauth2/code/google
             scope:
               - email
               - profile
