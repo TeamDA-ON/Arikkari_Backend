@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://svc.sel5.cloudtype.app:30515/mvp_daon
+    url: jdbc:mariadb://svc.sel5.cloudtype.app:30515/arikkari
     username: daonuser
     password: daonpassword
 
