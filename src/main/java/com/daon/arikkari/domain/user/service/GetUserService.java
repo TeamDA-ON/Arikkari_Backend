@@ -21,7 +21,7 @@ public class GetUserService {
     private final JwtProvider jwtProvider;
 
     public ResponseEntity<?> execute(HttpServletRequest request) {
-        String email = jwtProvider.extractEmail(request);
+        String email = jwtProvider.extractEmailWithAccessToken(request.getHeader("Authorization").split(" ")[1].trim());
         Optional<User> optionalUser = userRepository.findByEmail(email);
 
         if (optionalUser.isEmpty()) {
@@ -34,8 +34,6 @@ public class GetUserService {
                 .email(user.getEmail())
                 .name(user.getName())
                 .belong(user.getBelong())
-                .correctCount(user.getCorrectCount())
-                .wrongCount(user.getWrongCount())
                 .build());
     }
 }

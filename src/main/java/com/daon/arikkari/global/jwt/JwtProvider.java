@@ -91,11 +91,11 @@ public class JwtProvider implements InitializingBean {
                 .build();
     }
 
-    public String extractEmail(HttpServletRequest request) {
+    public String extractEmailWithAccessToken(String email) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(request.getHeader("Authorization").split(" ")[1].trim())
+                .parseClaimsJws(email)
                 .getBody()
                 .getSubject();
     }
@@ -125,7 +125,7 @@ public class JwtProvider implements InitializingBean {
         return new UsernamePasswordAuthenticationToken(jwt, "", authorities);
     }
 
-    public String extractEmailwithRefreshToken(String refreshToken) {
+    public String extractEmailWithRefreshToken(String refreshToken) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()

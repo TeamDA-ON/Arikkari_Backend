@@ -20,7 +20,6 @@ public class UserController {
     private final GetUserService getUserService;
     private final UpdateUserService updateUserService;
     private final GetRankService getRankService;
-    private final UpdateCorrectedService updateCorrectedService;
 
     @GetMapping("/get")
     public ResponseEntity<?> getUser(HttpServletRequest request) {
@@ -37,8 +36,4 @@ public class UserController {
         return getRankService.execute();
     }
 
-    @PutMapping("/corrected")
-    public ResponseEntity<String> updateCorrected(@RequestBody UpdateCorrectedRequest request, HttpServletRequest httpServletRequest) {
-        return updateCorrectedService.execute(request, httpServletRequest);
-    }
 }

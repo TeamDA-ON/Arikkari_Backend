@@ -54,8 +54,6 @@ public class AuthService {
                     User.builder()
                             .email(userInfoResponse.getEmail())
                             .name(userInfoResponse.getName())
-                            .correctCount(0L)
-                            .wrongCount(0L)
                             .belong("무소속")
                             .authority(Authority.ROLE_USER)
                             .build()

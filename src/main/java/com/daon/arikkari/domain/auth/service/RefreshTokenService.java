@@ -29,7 +29,7 @@ public class RefreshTokenService {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No token on DB");
         }
 
-        String email = jwtProvider.extractEmailwithRefreshToken(refreshToken);
+        String email = jwtProvider.extractEmailWithRefreshToken(refreshToken);
         Optional<RefreshToken> getToken = refreshTokenRepository.findByEmail(email);
 
         if (getToken.get().getRefreshToken().equals(refreshToken)) {

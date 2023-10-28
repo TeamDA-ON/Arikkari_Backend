@@ -18,7 +18,7 @@ public class UpdateUserService {
     private final JwtProvider jwtProvider;
 
     public ResponseEntity<String> execute(UpdateUserRequest request, HttpServletRequest httpServletRequest) {
-        String email = jwtProvider.extractEmail(httpServletRequest);
+        String email = jwtProvider.extractEmailWithAccessToken(httpServletRequest.getHeader("Authorization").split(" ")[1].trim());
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("No user"));
         user.setName(request.getName());
         user.setBelong(request.getBelong());

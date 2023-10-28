@@ -26,20 +26,13 @@ public class User {
     private String belong;
 
     @Column(nullable = false)
-    private Long correctCount;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WrongAnswer> wrongAnswers = new ArrayList<>();
-
-    @Column(nullable = false)
     private Authority authority;
 
     @Builder
-    public User(String email, String name, String belong, Long correctCount, Authority authority) {
+    public User(String email, String name, String belong, Authority authority) {
         this.email = email;
         this.name = name;
         this.belong = belong;
-        this.correctCount = correctCount;
         this.authority = authority;
     }
 
@@ -49,10 +42,6 @@ public class User {
 
     public void setBelong(String belong) {
         this.belong = belong;
-    }
-
-    public void addCount(Long correctCount) {
-        this.correctCount += correctCount;
     }
 
 }
