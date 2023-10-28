@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/saq")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SAQController {
 
     private final SAQService saqService;

@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -25,19 +28,18 @@ public class User {
     @Column(nullable = false)
     private Long correctCount;
 
-    @Column(nullable = false)
-    private Long wrongCount;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WrongAnswer> wrongAnswers = new ArrayList<>();
 
     @Column(nullable = false)
     private Authority authority;
 
     @Builder
-    public User(String email, String name, String belong, Long correctCount, Long wrongCount, Authority authority) {
+    public User(String email, String name, String belong, Long correctCount, Authority authority) {
         this.email = email;
         this.name = name;
         this.belong = belong;
         this.correctCount = correctCount;
-        this.wrongCount = wrongCount;
         this.authority = authority;
     }
 
@@ -52,4 +54,5 @@ public class User {
     public void addCount(Long correctCount) {
         this.correctCount += correctCount;
     }
+
 }
