@@ -2,7 +2,7 @@ package com.daon.arikkari.domain.auth.presentation;
 
 import com.daon.arikkari.domain.auth.service.AuthService;
 import com.daon.arikkari.domain.auth.service.RefreshTokenService;
-import com.daon.arikkari.domain.auth.presentation.dto.request.AuthResponse;
+import com.daon.arikkari.domain.auth.presentation.dto.response.AuthResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

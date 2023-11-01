@@ -1,6 +1,7 @@
 package com.daon.arikkari.domain.correct.service;
 
 import com.daon.arikkari.domain.correct.domain.Correct;
+import com.daon.arikkari.domain.correct.domain.QuestionType;
 import com.daon.arikkari.domain.correct.presentation.dto.request.SaveQuestionRequest;
 import com.daon.arikkari.domain.correct.repository.CorrectRepository;
 import com.daon.arikkari.global.jwt.JwtProvider;
@@ -22,7 +23,7 @@ public class AddCorrectService {
                 .builder()
                 .email(email)
                 .questionId(id)
-                .questionType(request.getQuestionType())
+                .questionType(request.getQuestionType().equals("MCQ") ? QuestionType.MCQ : QuestionType.SAQ)
                 .build()));
         return ResponseEntity.ok("success");
     }

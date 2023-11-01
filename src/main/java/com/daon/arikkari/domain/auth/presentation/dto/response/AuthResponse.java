@@ -1,4 +1,4 @@
-package com.daon.arikkari.domain.auth.presentation.dto.request;
+package com.daon.arikkari.domain.auth.presentation.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

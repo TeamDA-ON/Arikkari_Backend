@@ -50,7 +50,6 @@ public class JwtProvider implements InitializingBean {
     }
 
     private String createToken(String email, Long validation) {
-
         Date now = new Date();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("No user"));
 

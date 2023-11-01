@@ -20,10 +20,10 @@ public class Correct {
     private Long questionId;
 
     @Column(nullable = false)
-    private String questionType;
+    private QuestionType questionType;
 
     @Builder
-    public Correct(String email, Long questionId, String questionType) {
+    public Correct(String email, Long questionId, QuestionType questionType) {
         this.email = email;
         this.questionId = questionId;
         this.questionType = questionType;

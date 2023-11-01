@@ -27,15 +27,15 @@ public class ShortAnswerQuestion {
     private String problem2;
 
     @Column(nullable = false)
-    private String commentary;
+    private String description;
 
     @Builder
-    public ShortAnswerQuestion(String difficulty, String answer, String problem1, String problem2, String commentary) {
+    public ShortAnswerQuestion(String difficulty, String answer, String problem1, String problem2, String description) {
         this.difficulty = difficulty;
         this.answer = answer;
         this.problem1 = problem1;
         this.problem2 = problem2;
-        this.commentary = commentary;
+        this.description = description;
     }
 
     public SAQResponse toResponse(long i) {
@@ -43,7 +43,7 @@ public class ShortAnswerQuestion {
                 .id(i)
                 .difficulty(this.difficulty)
                 .answer(this.answer)
-                .commentary(this.commentary)
+                .commentary(this.description)
                 .problem1(this.problem1)
                 .problem2(this.problem2)
                 .build();

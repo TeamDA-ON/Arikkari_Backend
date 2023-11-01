@@ -33,17 +33,17 @@ public class MultipleChoiceQuestion {
     private Long answer;
 
     @Column(nullable = false)
-    private String commentary;  
+    private String description;
 
     @Builder
-    public MultipleChoiceQuestion(String difficulty, String problem, String selection1, String selection2, String selection3, Long answer, String commentary) {
+    public MultipleChoiceQuestion(String difficulty, String problem, String selection1, String selection2, String selection3, Long answer, String description) {
         this.difficulty = difficulty;
         this.problem = problem;
         this.selection1 = selection1;
         this.selection2 = selection2;
         this.selection3 = selection3;
         this.answer = answer;
-        this.commentary = commentary;
+        this.description = description;
     }
 
     public MCQResponse toResponse(int i) {
@@ -55,7 +55,7 @@ public class MultipleChoiceQuestion {
                 .selection2(this.selection2)
                 .selection3(this.selection3)
                 .answer(this.answer)
-                .commentary(this.commentary)
+                .commentary(this.description)
                 .build();
     }
 }

@@ -4,7 +4,7 @@ import com.daon.arikkari.domain.auth.domain.RefreshToken;
 import com.daon.arikkari.domain.auth.repository.RefreshTokenRepository;
 import com.daon.arikkari.domain.user.domain.Authority;
 import com.daon.arikkari.domain.user.domain.User;
-import com.daon.arikkari.domain.auth.presentation.dto.request.AuthResponse;
+import com.daon.arikkari.domain.auth.presentation.dto.response.AuthResponse;
 import com.daon.arikkari.domain.user.repository.UserRepository;
 import com.daon.arikkari.domain.user.service.GetTokenService;
 import com.daon.arikkari.domain.user.service.GetUserInfoService;

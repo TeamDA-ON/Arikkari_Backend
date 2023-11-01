@@ -1,6 +1,7 @@
 package com.daon.arikkari.domain.correct.presentation;
 
 import com.daon.arikkari.domain.correct.presentation.dto.request.SaveQuestionRequest;
+import com.daon.arikkari.domain.correct.presentation.dto.response.CorrectResponse;
 import com.daon.arikkari.domain.correct.service.AddCorrectService;
 import com.daon.arikkari.domain.correct.service.GetCorrectListService;
 import com.daon.arikkari.domain.correct.service.GetCorrectService;
@@ -20,11 +21,17 @@ import java.util.List;
 public class CorrectController {
 
     private final GetCorrectService getCorrectService;
+    private final GetCorrectListService getCorrectListService;
     private final AddCorrectService addCorrectService;
 
     @GetMapping
     public ResponseEntity<Long> getCount(HttpServletRequest request) {
         return getCorrectService.execute(request);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<CorrectResponse>> getCorrectList(HttpServletRequest request) {
+        return getCorrectListService.execute(request);
     }
 
     @PostMapping
