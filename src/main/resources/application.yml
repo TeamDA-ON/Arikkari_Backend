@@ -19,7 +19,7 @@ spring:
             client-secret: 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
             # redirect-uri: https://port-0-arikkari-backend-euegqv2blnrdvf3e.sel5.cloudtype.app/login/oauth2/code/google
             # redirect-uri: http://localhost:8080/login/oauth2/code/google
-            redirect-uri: https://port-0-java-springboot-12fhqa2blnyp8mt7.sel5.cloudtype.app/login/oauth2/code/google
+            redirect-uri: http://localhost:8080/api/auth/signup
             scope:
               - email
               - profile

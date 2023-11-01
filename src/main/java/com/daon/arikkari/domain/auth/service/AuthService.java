@@ -59,7 +59,6 @@ public class AuthService {
                             .build()
             );
         }
-
         String accessToken = jwtProvider.createAccessToken(userInfoResponse.getEmail());
         String refreshToken = jwtProvider.createRefreshToken(userInfoResponse.getEmail());
         refreshTokenRepository.save(

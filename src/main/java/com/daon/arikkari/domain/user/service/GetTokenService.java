@@ -15,5 +15,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface GetTokenService {
     @PostMapping
     @Headers("Content-Type: application/x-www-form-urlencoded")
-    GoogleTokenResponse getAccessToken(@RequestBody GoogleTokenRequest reqeust);
+    GoogleTokenResponse getAccessToken(@RequestBody GoogleTokenRequest request);
 }
