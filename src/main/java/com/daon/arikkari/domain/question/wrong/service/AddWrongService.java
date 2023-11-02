@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class AddWrongService {
@@ -23,7 +25,7 @@ public class AddWrongService {
                 .email(email)
                 .questionId(id)
                 .questionType(request.getQuestionType().equals("MCQ") ? QuestionType.MCQ : QuestionType.SAQ)
-                .build()));
+                .build())).collect(Collectors.toList());
         return ResponseEntity.ok("success");
     }
 }

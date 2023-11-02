@@ -1,7 +1,9 @@
 package com.daon.arikkari.domain.question.correct.service;
 
+import com.daon.arikkari.domain.question.correct.domain.Correct;
 import com.daon.arikkari.domain.question.correct.domain.QuestionType;
 import com.daon.arikkari.domain.question.correct.presentation.dto.request.SaveQuestionRequest;
+import com.daon.arikkari.domain.question.correct.repository.CorrectRepository;
 import com.daon.arikkari.domain.question.wrong.domain.Wrong;
 import com.daon.arikkari.domain.question.wrong.repository.WrongRepository;
 import com.daon.arikkari.global.jwt.JwtProvider;
@@ -10,21 +12,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class AddCorrectService {
 
-    private final WrongRepository wrongRepository;
+    private final CorrectRepository correctRepository;
     private final JwtProvider jwtProvider;
 
     public ResponseEntity<String> execute(SaveQuestionRequest request, HttpServletRequest httpServletRequest) {
         String email = jwtProvider.extractEmailWithAccessToken(httpServletRequest.getHeader("Authorization").split(" ")[1].trim());
-        request.getList().stream().map((id) -> wrongRepository.save(Wrong
+        request.getList().stream().map((id) -> correctRepository.save(Correct
                 .builder()
                 .email(email)
                 .questionId(id)
                 .questionType(request.getQuestionType().equals("MCQ") ? QuestionType.MCQ : QuestionType.SAQ)
-                .build()));
+                .build())).collect(Collectors.toList());
         return ResponseEntity.ok("success");
     }
 }

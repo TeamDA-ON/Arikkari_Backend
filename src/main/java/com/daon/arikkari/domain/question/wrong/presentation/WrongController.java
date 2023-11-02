@@ -32,7 +32,7 @@ public class WrongController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addCount(SaveQuestionRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<String> addCount(@RequestBody SaveQuestionRequest request, HttpServletRequest httpServletRequest) {
         return addWrongService.execute(request, httpServletRequest);
     }
 }

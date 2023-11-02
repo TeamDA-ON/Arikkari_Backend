@@ -8,10 +8,7 @@ import com.daon.arikkari.domain.question.correct.service.GetCorrectService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,7 +32,7 @@ public class CorrectController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addCount(SaveQuestionRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<String> addCount(@RequestBody SaveQuestionRequest request, HttpServletRequest httpServletRequest) {
         return addCorrectService.execute(request, httpServletRequest);
     }
 

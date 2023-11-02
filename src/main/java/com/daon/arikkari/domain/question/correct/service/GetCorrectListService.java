@@ -23,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GetCorrectListService {
 
-    private final WrongRepository wrongRepository;
+    private final CorrectRepository correctRepository;
     private final JwtProvider jwtProvider;
     private final MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
     private final ShortAnswerQuestionRepository shortAnswerQuestionRepository;
@@ -31,8 +31,8 @@ public class GetCorrectListService {
     public ResponseEntity<List<QuestionResponse>> execute(HttpServletRequest request) {
         String email = jwtProvider.extractEmailWithAccessToken(request.getHeader("Authorization").split(" ")[1].trim());
         List<QuestionResponse> returnList = new ArrayList<>();
-        List<Wrong> wrongList = wrongRepository.findAllByEmail(email);
-        wrongList.stream().map((data) -> {
+        List<Correct> correctList = correctRepository.findAllByEmail(email);
+        correctList.stream().map((data) -> {
             if (data.getQuestionType() == QuestionType.MCQ) {
                 MultipleChoiceQuestion question = multipleChoiceQuestionRepository.findById(data.getQuestionId()).get();
                 returnList.add(QuestionResponse.builder()
