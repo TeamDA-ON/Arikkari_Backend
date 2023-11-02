@@ -1,10 +1,8 @@
 package com.daon.arikkari.domain.dictionary.service;
 
-import com.daon.arikkari.domain.dictionary.presentation.dto.request.DictionaryRequest;
-import com.daon.arikkari.domain.dictionary.presentation.dto.response.DictionaryResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
         name = "GetDefineService",
@@ -12,5 +10,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 )
 public interface GetDefineService {
     @GetMapping
-    DictionaryResponse getDictionaryInfo(@RequestBody DictionaryRequest request);
+    String getDictionaryInfo(@RequestParam String key, @RequestParam String q);
 }

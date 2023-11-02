@@ -4,6 +4,10 @@ spring:
     url: jdbc:mariadb://svc.sel5.cloudtype.app:30515/arikkari
     username: daonuser
     password: daonpassword
+  jackson:
+    dataformat:
+      xml:
+        use-list-accessors: false # (옵션) 리스트 엘리먼트의 경우 루트 엘리먼트로 래핑되지 않도록 설정
 
   jpa:
     show-sql: true
