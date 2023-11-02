@@ -46,9 +46,9 @@ public class MultipleChoiceQuestion {
         this.description = description;
     }
 
-    public MCQResponse toResponse(int i) {
+    public MCQResponse toResponse() {
         return MCQResponse.builder()
-                .id((long) i)
+                .id(this.id)
                 .difficulty(this.difficulty)
                 .problem(this.problem)
                 .selection1(this.selection1)

@@ -38,9 +38,9 @@ public class ShortAnswerQuestion {
         this.description = description;
     }
 
-    public SAQResponse toResponse(long i) {
+    public SAQResponse toResponse() {
         return SAQResponse.builder()
-                .id(i)
+                .id(this.id)
                 .difficulty(this.difficulty)
                 .answer(this.answer)
                 .commentary(this.description)
