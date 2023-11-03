@@ -56,6 +56,7 @@ public class AuthService {
                             .name(userInfoResponse.getName())
                             .belong("무소속")
                             .authority(Authority.ROLE_USER)
+                            .correctCount(0L)
                             .build()
             );
         }

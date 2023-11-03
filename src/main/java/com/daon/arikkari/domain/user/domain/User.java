@@ -28,12 +28,16 @@ public class User {
     @Column(nullable = false)
     private Authority authority;
 
+    @Column(nullable = false)
+    private Long correctCount;
+
     @Builder
-    public User(String email, String name, String belong, Authority authority) {
+    public User(String email, String name, String belong, Authority authority, Long correctCount) {
         this.email = email;
         this.name = name;
         this.belong = belong;
         this.authority = authority;
+        this.correctCount = correctCount;
     }
 
     public void setName(String name) {
@@ -42,6 +46,10 @@ public class User {
 
     public void setBelong(String belong) {
         this.belong = belong;
+    }
+
+    public void addCount(Long count) {
+        this.correctCount += count;
     }
 
 }
