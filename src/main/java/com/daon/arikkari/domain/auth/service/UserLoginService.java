@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class UserLoginService {
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String GoogleClientId;
