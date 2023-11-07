@@ -24,7 +24,7 @@ public class GetRankService {
                 .map(user -> RankResponse.builder()
                         .name(user.getName())
                         .belong(user.getBelong())
-                        .point(correctRepository.countByEmail(user.getEmail()) * 20)
+                        .point(correctRepository.countByEmail(user.getEmail()) * 5)
                         .build())
                 .collect(Collectors.toList()));
     }
