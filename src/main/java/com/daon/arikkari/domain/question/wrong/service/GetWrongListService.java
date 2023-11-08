@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,28 +29,25 @@ public class GetWrongListService {
 
     public ResponseEntity<List<QuestionResponse>> execute(HttpServletRequest request) {
         String email = jwtProvider.extractEmailWithAccessToken(request.getHeader("Authorization").split(" ")[1].trim());
-        List<QuestionResponse> returnList = new ArrayList<>();
-        List<Wrong> correctList = wrongRepository.findAllByEmail(email);
-        correctList.stream().map((data) -> {
+        List<Wrong> wrongList = wrongRepository.findAllByEmail(email);
+        return ResponseEntity.ok(wrongList.stream().map(data -> {
             if (data.getQuestionType() == QuestionType.MCQ) {
                 MultipleChoiceQuestion question = multipleChoiceQuestionRepository.findById(data.getQuestionId()).get();
-                returnList.add(QuestionResponse.builder()
+                return QuestionResponse.builder()
                         .questionType(QuestionType.MCQ)
                         .answer(question.getAnswer() == 1 ?
                                 question.getSelection1() : question.getAnswer() == 2 ?
                                 question.getSelection2() : question.getSelection3())
                         .description(question.getDescription())
-                        .build());
+                        .build();
             } else {
                 ShortAnswerQuestion question = shortAnswerQuestionRepository.findById(data.getQuestionId()).get();
-                returnList.add(QuestionResponse.builder()
+                return QuestionResponse.builder()
                         .questionType(QuestionType.SAQ)
                         .answer(question.getAnswer())
                         .description(question.getDescription())
-                        .build());
+                        .build();
             }
-            return null;
-        });
-        return ResponseEntity.ok(returnList);
+        }).collect(Collectors.toList()));
     }
 }
