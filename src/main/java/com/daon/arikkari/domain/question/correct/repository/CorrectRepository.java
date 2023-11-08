@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface CorrectRepository extends JpaRepository<Correct, Long> {
     List<Correct> findAllByEmail(String email);
-
     Long countByEmail(String email);
 }

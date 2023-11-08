@@ -10,6 +10,7 @@ import com.daon.arikkari.domain.user.domain.User;
 import com.daon.arikkari.domain.user.repository.UserRepository;
 import com.daon.arikkari.global.jwt.JwtProvider;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class AddCorrectService {
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
 
+    @Transactional
     public ResponseEntity<String> execute(SaveQuestionRequest request, HttpServletRequest httpServletRequest) {
         String email = jwtProvider.extractEmailWithAccessToken(httpServletRequest.getHeader("Authorization").split(" ")[1].trim());
         request.getList().stream().map((id) -> correctRepository.save(Correct
@@ -33,7 +35,8 @@ public class AddCorrectService {
                 .questionType(request.getQuestionType().equals("MCQ") ? QuestionType.MCQ : QuestionType.SAQ)
                 .build())).collect(Collectors.toList());
         User user = userRepository.findByEmail(email).get();
-        user.addCount((long) request.getList().size());
+        user.addCount((long) request.getList().size() * 5);
+        userRepository.save(user);
         return ResponseEntity.ok("success");
     }
 }
