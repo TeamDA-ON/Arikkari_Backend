@@ -1,5 +1,7 @@
 package com.daon.arikkari.domain.user.service;
 
+import com.daon.arikkari.domain.question.correct.repository.CorrectRepository;
+import com.daon.arikkari.domain.question.wrong.repository.WrongRepository;
 import com.daon.arikkari.domain.user.domain.User;
 import com.daon.arikkari.domain.user.presentation.dto.request.UserRequest;
 import com.daon.arikkari.domain.user.presentation.dto.response.UserResponse;
@@ -18,6 +20,8 @@ import java.util.Optional;
 public class GetUserService {
 
     private final UserRepository userRepository;
+    private final CorrectRepository correctRepository;
+    private final WrongRepository wrongRepository;
     private final JwtProvider jwtProvider;
 
     public ResponseEntity<?> execute(HttpServletRequest request) {
@@ -34,6 +38,8 @@ public class GetUserService {
                 .email(user.getEmail())
                 .name(user.getName())
                 .belong(user.getBelong())
+                .correctCount(correctRepository.countByEmail(email))
+                .wrongCount(correctRepository.countByEmail(email))
                 .build());
     }
 }
