@@ -39,7 +39,7 @@ public class GetUserService {
                 .name(user.getName())
                 .belong(user.getBelong())
                 .correctCount(correctRepository.countByEmail(email))
-                .wrongCount(correctRepository.countByEmail(email))
+                .wrongCount(wrongRepository.countByEmail(email))
                 .build());
     }
 }

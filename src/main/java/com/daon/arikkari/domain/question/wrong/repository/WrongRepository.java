@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface WrongRepository extends JpaRepository<Wrong, Long> {
     List<Wrong> findAllByEmail(String email);
+
+    Long countByEmail(String email);
 }
