@@ -35,8 +35,11 @@ public class MultipleChoiceQuestion {
     @Column(nullable = false)
     private String description;
 
+    @Column
+    private String define;
+
     @Builder
-    public MultipleChoiceQuestion(String difficulty, String problem, String selection1, String selection2, String selection3, Long answer, String description) {
+    public MultipleChoiceQuestion(String difficulty, String problem, String selection1, String selection2, String selection3, Long answer, String description, String define) {
         this.difficulty = difficulty;
         this.problem = problem;
         this.selection1 = selection1;
@@ -44,6 +47,7 @@ public class MultipleChoiceQuestion {
         this.selection3 = selection3;
         this.answer = answer;
         this.description = description;
+        this.define = define;
     }
 
     public MCQResponse toResponse() {
@@ -57,5 +61,10 @@ public class MultipleChoiceQuestion {
                 .answer(this.answer)
                 .commentary(this.description)
                 .build();
+    }
+
+    public MultipleChoiceQuestion setDefine(String define) {
+        this.define = define;
+        return this;
     }
 }

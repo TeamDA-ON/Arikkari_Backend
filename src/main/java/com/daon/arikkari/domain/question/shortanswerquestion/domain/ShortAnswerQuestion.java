@@ -29,13 +29,17 @@ public class ShortAnswerQuestion {
     @Column(nullable = false)
     private String description;
 
+    @Column
+    private String define;
+
     @Builder
-    public ShortAnswerQuestion(String difficulty, String answer, String problem1, String problem2, String description) {
+    public ShortAnswerQuestion(String difficulty, String answer, String problem1, String problem2, String description, String define) {
         this.difficulty = difficulty;
         this.answer = answer;
         this.problem1 = problem1;
         this.problem2 = problem2;
         this.description = description;
+        this.define = define;
     }
 
     public SAQResponse toResponse() {
@@ -47,5 +51,10 @@ public class ShortAnswerQuestion {
                 .problem1(this.problem1)
                 .problem2(this.problem2)
                 .build();
+    }
+
+    public ShortAnswerQuestion setDefine(String define) {
+        this.define = define;
+        return this;
     }
 }

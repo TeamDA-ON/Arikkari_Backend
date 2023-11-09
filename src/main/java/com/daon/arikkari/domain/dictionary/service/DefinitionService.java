@@ -1,5 +1,6 @@
 package com.daon.arikkari.domain.dictionary.service;
 
+import com.daon.arikkari.domain.dictionary.presentation.dto.response.DefineResponse;
 import com.daon.arikkari.domain.dictionary.presentation.dto.response.InfoResponse;
 import com.daon.arikkari.domain.question.multiplechoicequestion.domain.MultipleChoiceQuestion;
 import com.daon.arikkari.domain.question.multiplechoicequestion.repository.MultipleChoiceQuestionRepository;
@@ -13,30 +14,29 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
-public class DictionaryService {
+public class DefinitionService {
 
     private final MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
     private final ShortAnswerQuestionRepository shortAnswerQuestionRepository;
-    public ResponseEntity<InfoResponse> execute() {
+
+    public ResponseEntity<DefineResponse> execute() {
         Random random = new Random();
         long randomIndex = random.nextInt(113);
         if (randomIndex % 2 == 0) {
-           MultipleChoiceQuestion multipleChoiceQuestion = multipleChoiceQuestionRepository.findById(randomIndex).get();
-           return ResponseEntity.ok(InfoResponse.builder()
-                           .description(multipleChoiceQuestion.getDefine())
-                           .word(multipleChoiceQuestion.getAnswer() == 1 ?
-                                   multipleChoiceQuestion.getSelection1() : multipleChoiceQuestion.getAnswer() == 2 ?
-                                   multipleChoiceQuestion.getSelection2() : multipleChoiceQuestion.getSelection3())
-                   .description(multipleChoiceQuestion.getDescription())
-                   .build());
+            MultipleChoiceQuestion multipleChoiceQuestion = multipleChoiceQuestionRepository.findById(randomIndex).get();
+            return ResponseEntity.ok(DefineResponse.builder()
+                    .word(multipleChoiceQuestion.getAnswer() == 1 ?
+                            multipleChoiceQuestion.getSelection1() : multipleChoiceQuestion.getAnswer() == 2 ?
+                            multipleChoiceQuestion.getSelection2() : multipleChoiceQuestion.getSelection3())
+                    .define(multipleChoiceQuestion.getDefine())
+                    .build());
         }
         else {
             ShortAnswerQuestion shortAnswerQuestion = shortAnswerQuestionRepository.findById(randomIndex).get();
-            return ResponseEntity.ok(InfoResponse.builder()
-                            .word(shortAnswerQuestion.getAnswer())
-                            .description(shortAnswerQuestion.getDefine())
+            return ResponseEntity.ok(DefineResponse.builder()
+                    .word(shortAnswerQuestion.getAnswer())
+                    .define(shortAnswerQuestion.getDefine())
                     .build());
         }
-
     }
 }

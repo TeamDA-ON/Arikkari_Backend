@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
         name = "GetDefineService",
-        url = "https://krdict.korean.go.kr/api/search"
+        url = "http://opendict.korean.go.kr/api/search"
 )
 public interface GetDefineService {
     @GetMapping
-    String getDictionaryInfo(@RequestParam String key, @RequestParam String q);
+    String getDictionaryInfo(@RequestParam String key, @RequestParam String q, @RequestParam String req_type);
 }
