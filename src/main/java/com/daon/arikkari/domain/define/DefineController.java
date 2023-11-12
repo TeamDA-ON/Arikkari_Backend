@@ -1,4 +1,4 @@
-package com.daon.arikkari.domain.test;
+package com.daon.arikkari.domain.define;
 
 import com.daon.arikkari.domain.dictionary.service.GetDefineService;
 import com.daon.arikkari.domain.question.multiplechoicequestion.repository.MultipleChoiceQuestionRepository;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/test")
-public class testController {
+public class DefineController {
 
     private final GetDefineService getDefineService;
     private final MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
