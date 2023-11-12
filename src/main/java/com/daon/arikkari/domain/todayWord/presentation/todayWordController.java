@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/today")
-public class todayWordController {
+public class TodayWordController {
 
     private final GetTodayWordService getTodayWordService;
 
