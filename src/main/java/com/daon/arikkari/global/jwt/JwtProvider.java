@@ -2,12 +2,13 @@ package com.daon.arikkari.global.jwt;
 
 import com.daon.arikkari.domain.user.domain.User;
 import com.daon.arikkari.domain.user.repository.UserRepository;
+import com.daon.arikkari.global.auth.details.AuthDetails;
+import com.daon.arikkari.global.auth.details.AuthDetailsService;
 import com.daon.arikkari.global.jwt.dto.JwtFilterResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,14 +16,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.parameters.P;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -34,6 +32,8 @@ public class JwtProvider implements InitializingBean {
 
     private final UserRepository userRepository;
     private String AUTHORIZATION_KEY = "arikkarikey";
+
+    private final AuthDetailsService authDetailsService;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -121,7 +121,9 @@ public class JwtProvider implements InitializingBean {
                 Arrays.stream(claims.get(AUTHORIZATION_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .toList();
-        return new UsernamePasswordAuthenticationToken(jwt, "", authorities);
+
+        AuthDetails authDetails = (AuthDetails) authDetailsService.loadUserByUsername(extractEmailWithAccessToken(jwt));
+        return new UsernamePasswordAuthenticationToken(authDetails, jwt, authorities);
     }
 
     public String extractEmailWithRefreshToken(String refreshToken) {
