@@ -19,7 +19,7 @@ public class DictionaryService {
     private final ShortAnswerQuestionRepository shortAnswerQuestionRepository;
     public ResponseEntity<InfoResponse> execute() {
         Random random = new Random();
-        long randomIndex = random.nextInt(113);
+        long randomIndex = random.nextInt(93);
         if (randomIndex % 2 == 0) {
            MultipleChoiceQuestion multipleChoiceQuestion = multipleChoiceQuestionRepository.findById(randomIndex).get();
            return ResponseEntity.ok(InfoResponse.builder()

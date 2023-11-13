@@ -9,5 +9,6 @@ import lombok.Getter;
 public class QuestionResponse {
     private String answer;
     private String description;
+    private String define;
     private QuestionType questionType;
 }

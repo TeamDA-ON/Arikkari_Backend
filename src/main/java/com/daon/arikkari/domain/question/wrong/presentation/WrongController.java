@@ -27,7 +27,7 @@ public class WrongController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<QuestionResponse>> getCorrectList(HttpServletRequest request) {
+    public ResponseEntity<List<QuestionResponse>> getWrongList(HttpServletRequest request) {
         return getWrongListService.execute(request);
     }
 

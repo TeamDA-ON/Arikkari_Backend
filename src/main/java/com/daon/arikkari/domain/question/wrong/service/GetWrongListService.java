@@ -38,6 +38,7 @@ public class GetWrongListService {
                         .answer(question.getAnswer() == 1 ?
                                 question.getSelection1() : question.getAnswer() == 2 ?
                                 question.getSelection2() : question.getSelection3())
+                        .define(question.getDefine())
                         .description(question.getDescription())
                         .build();
             } else {
@@ -46,6 +47,7 @@ public class GetWrongListService {
                         .questionType(QuestionType.SAQ)
                         .answer(question.getAnswer())
                         .description(question.getDescription())
+                        .define(question.getDefine())
                         .build();
             }
         }).collect(Collectors.toList()));

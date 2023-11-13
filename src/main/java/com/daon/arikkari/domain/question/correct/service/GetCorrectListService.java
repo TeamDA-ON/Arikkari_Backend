@@ -39,6 +39,7 @@ public class GetCorrectListService {
                                 question.getSelection1() : question.getAnswer() == 2 ?
                                 question.getSelection2() : question.getSelection3())
                         .description(question.getDescription())
+                        .define(question.getDefine())
                         .build();
             } else {
                 ShortAnswerQuestion question = shortAnswerQuestionRepository.findById(data.getQuestionId()).get();
@@ -46,6 +47,7 @@ public class GetCorrectListService {
                         .questionType(QuestionType.SAQ)
                         .answer(question.getAnswer())
                         .description(question.getDescription())
+                        .define(question.getDefine())
                         .build();
             }
         }).collect(Collectors.toList()));
