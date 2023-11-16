@@ -14,7 +14,6 @@ import java.util.Random;
 public class SAQService {
 
     private final ShortAnswerQuestionRepository repository;
-
     public List<SAQResponse> execute() {
         Long a = repository.findMaxId();
         Random random = new Random();

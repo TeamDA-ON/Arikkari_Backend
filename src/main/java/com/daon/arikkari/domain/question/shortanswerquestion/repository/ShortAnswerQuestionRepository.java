@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShortAnswerQuestionRepository extends JpaRepository<ShortAnswerQuestion, Long> {
-    @Query("SELECT MAX(id) FROM ShortAnswerQuestion")
+    @Query("SELECT count(id) FROM ShortAnswerQuestion")
     Long findMaxId();
 }
