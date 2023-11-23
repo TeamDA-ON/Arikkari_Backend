@@ -26,7 +26,7 @@ public class GetTodayWordService {
     }
 
     @Scheduled(cron = "0 0 0 * * *")
-    public void updateTodayWord() {
+    public ResponseEntity<String> updateTodayWord() {
         Random random = new Random();
         Long randomNum = random.nextLong(113);
         if (randomNum % 2 == 0) {
@@ -46,6 +46,7 @@ public class GetTodayWordService {
                     .description(question.getDescription())
                     .build();
         }
+        return ResponseEntity.ok("success");
     }
 
     @PostConstruct

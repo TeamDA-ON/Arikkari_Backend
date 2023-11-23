@@ -4,9 +4,7 @@ import com.daon.arikkari.domain.todayWord.domain.TodayWord;
 import com.daon.arikkari.domain.todayWord.service.GetTodayWordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,5 +16,10 @@ public class TodayWordController {
     @GetMapping
     public ResponseEntity<TodayWord> getTodayWord() {
         return getTodayWordService.execute();
+    }
+
+    @PutMapping
+    public ResponseEntity<String> updateTodayWord() {
+        return getTodayWordService.updateTodayWord();
     }
 }
