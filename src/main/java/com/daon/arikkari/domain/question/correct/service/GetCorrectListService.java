@@ -8,7 +8,6 @@ import com.daon.arikkari.domain.question.multiplechoicequestion.domain.MultipleC
 import com.daon.arikkari.domain.question.multiplechoicequestion.repository.MultipleChoiceQuestionRepository;
 import com.daon.arikkari.domain.question.shortanswerquestion.domain.ShortAnswerQuestion;
 import com.daon.arikkari.domain.question.shortanswerquestion.repository.ShortAnswerQuestionRepository;
-import com.daon.arikkari.domain.question.wrong.domain.Wrong;
 import com.daon.arikkari.global.jwt.JwtProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,24 +32,36 @@ public class GetCorrectListService {
         List<Correct> correctList = correctRepository.findAllByEmail(email);
         return ResponseEntity.ok(correctList.stream().map(data -> {
             if (data.getQuestionType() == QuestionType.MCQ) {
-                MultipleChoiceQuestion question = multipleChoiceQuestionRepository.findById(data.getQuestionId()).get();
-                return QuestionResponse.builder()
-                        .questionType(QuestionType.MCQ)
-                        .answer(question.getAnswer() == 1 ?
-                                question.getSelection1() : question.getAnswer() == 2 ?
-                                question.getSelection2() : question.getSelection3())
-                        .description(question.getDescription())
-                        .define(question.getDefine())
-                        .build();
+                Optional<MultipleChoiceQuestion> question = multipleChoiceQuestionRepository.findById(data.getQuestionId());
+                if (question.isPresent()) {
+                    MultipleChoiceQuestion multipleChoiceQuestion = question.get();
+                    return QuestionResponse.builder()
+                            .questionType(QuestionType.MCQ)
+                            .answer(multipleChoiceQuestion.getAnswer() == 1 ?
+                                    multipleChoiceQuestion.getSelection1() : multipleChoiceQuestion.getAnswer() == 2 ?
+                                    multipleChoiceQuestion.getSelection2() : multipleChoiceQuestion.getSelection3())
+                            .description(multipleChoiceQuestion.getDescription())
+                            .define(multipleChoiceQuestion.getDefine())
+                            .build();
+                }
             } else {
-                ShortAnswerQuestion question = shortAnswerQuestionRepository.findById(data.getQuestionId()).get();
-                return QuestionResponse.builder()
-                        .questionType(QuestionType.SAQ)
-                        .answer(question.getAnswer())
-                        .description(question.getDescription())
-                        .define(question.getDefine())
-                        .build();
+                Optional<ShortAnswerQuestion> question = shortAnswerQuestionRepository.findById(data.getQuestionId());
+                if (question.isPresent()) {
+                    ShortAnswerQuestion shortAnswerQuestion = question.get();
+                    return QuestionResponse.builder()
+                            .questionType(QuestionType.SAQ)
+                            .answer(shortAnswerQuestion.getAnswer())
+                            .description(shortAnswerQuestion.getDescription())
+                            .define(shortAnswerQuestion.getDefine())
+                            .build();
+                }
             }
+            return QuestionResponse.builder()
+                    .questionType(QuestionType.MCQ)
+                    .answer("데이터가 없습니다")
+                    .description("데이터가 없습니다")
+                    .define("데이터가 없습니다")
+                    .build();
         }).collect(Collectors.toList()));
     }
 }
